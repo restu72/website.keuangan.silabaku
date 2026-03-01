@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Grafik Laba & Rugi</title>
+    <!-- Gunakan CDN Chart.js yang konsisten -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            padding: 10px 0;
+            /* Hapus margin tambahan yang mungkin menyebabkan perbedaan */
+        }
+
+        .nav-btn-container {
+            max-width: 1000px;
+            margin: 0 auto 15px;
+            padding: 0 15px;
+        }
+
+        .btn-custom {
+            display: inline-flex; /* Gunakan flex untuk align ikon */
+            align-items: center;
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: white !important;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: clamp(14px, 2vw, 16px); /* Konsisten ukuran font */
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-custom:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-custom i {
+            margin-left: 8px; /* Konsisten jarak ikon */
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 15px;
+            /* Pastikan tidak ada padding tambahan yang tidak perlu */
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            font-size: clamp(20px, 4vw, 28px);
+            font-weight: 700;
+            line-height: 1.2; /* Konsisten tinggi baris */
+        }
+
+        .section {
+            background-color: white;
+            padding: clamp(15px, 3vw, 20px);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: clamp(15px, 3vw, 20px);
+            /* Hapus overflow yang tidak perlu */
+        }
+
+        h3 {
+            font-size: clamp(18px, 3.5vw, 20px);
+            margin-bottom: 15px;
+            color: #2d3436;
+            font-weight: 600;
+        }
+
+        h4 {
+            font-size: clamp(16px, 3vw, 18px);
+            margin: 10px 0;
+            color: #495057;
+        }
+
+        .calc-btn {
+            padding: clamp(8px, 2vw, 10px) clamp(16px, 3vw, 20px);
+            font-size: clamp(15px, 2.5vw, 18px);
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 15px;
+            transition: background-color 0.3s ease;
+            width: 100%; /* Tombol penuh lebar di semua perangkat */
+            max-width: 300px; /* Batasi lebar maksimal */
+            display: block;
+            margin-left: auto;
+            margin-right: auto; /* Posisikan di tengah */
+        }
+
+        .calc-btn:hover {
+            background-color: #218838;
+        }
+
+        .alert {
+            padding: clamp(8px, 2vw, 10px);
+            border-radius: 4px;
+            margin-bottom: 15px;
+            background-color: #d4edda;
+            color: #155724;
+            display: none;
+            font-size: clamp(14px, 2.5vw, 16px);
+            border: 1px solid #c3e6cb;
+            text-align: center; /* Konsisten tampilan pesan */
+        }
+
+        .result-item {
+            font-size: clamp(14px, 2.5vw, 18px);
+            margin-bottom: 10px;
+            padding: 5px 0;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        /* Konsisten tampilan result item di semua perangkat */
+        .result-item strong {
+            display: inline-block;
+            min-width: clamp(140px, 35vw, 180px);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+            font-size: clamp(13px, 2vw, 16px);
+            /* Tetapkan display block dengan overflow-x auto untuk semua perangkat */
+            display: block;
+            overflow-x: auto;
+            border-radius: 4px;
+            /* Hapus margin negatif yang menyebabkan perbedaan */
+        }
+
+        th, td {
+            padding: clamp(8px, 1.5vw, 12px);
+            text-align: left;
+            border-bottom: 1px solid #e2e2e2;
+            white-space: nowrap; /* Hindari pemotongan teks */
+        }
+
+        th {
+            background-color: #f8f9fa;
+            font-size: clamp(14px, 2.2vw, 17px);
+            font-weight: 600;
+        }
+
+        .chart-container {
+            height: clamp(300px, 45vw, 400px); /* Konsisten rasio aspek */
+            width: 100%;
+            margin: 0 auto;
+            /* Pastikan tidak ada padding tambahan */
+        }
+
+        /* Hapus media query khusus mobile yang menyebabkan perbedaan, ganti dengan aturan global */
+    </style>
+</head>
+<body>
+    <div class="nav-btn-container">
+        <a class="btn-custom" href="index.html">Beranda <i class="fas fa-arrow-right"></i></a>
+    </div>
+
+    <div class="container">
+        <h2>Grafik Laba & Rugi</h2>
+
+        <div class="section">
+            <h3>Ringkasan Data Transaksi</h3>
+            <button class="calc-btn" onclick="hitungLabaRugi()">Hitung Laba & Rugi</button>
+            <div class="alert" id="calcAlert">Perhitungan selesai! Grafik telah diperbarui.</div>
+
+            <div class="result-item"><strong>Total Penjualan (Rp):</strong> <span id="totalPenjualan">-</span></div>
+            <div class="result-item"><strong>Total HPP (Rp):</strong> <span id="totalHPP">-</span></div>
+            <div class="result-item"><strong>Total Beban (Rp):</strong> <span id="totalBeban">-</span></div>
+            <div class="result-item"><strong><span id="labaRugiLabel">-</span> (Rp):</strong> <span id="nilaiLabaRugi">-</span></div>
+        </div>
+
+        <div class="section">
+            <h3>Grafik Batang Laba & Rugi</h3>
+            <div class="chart-container">
+                <canvas id="labaRugiChart"></canvas>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>Data Dasar Perhitungan</h3>
+            <h4>Total Agregat</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Komponen</th>
+                        <th>Total Harga Beli (Rp)</th>
+                        <th>Total Harga Jual (Rp)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Persediaan Awal</td>
+                        <td id="totalPA_Beli">-</td>
+                        <td id="totalPA_Jual">-</td>
+                    </tr>
+                    <tr>
+                        <td>Pembelian</td>
+                        <td id="totalPB_Beli">-</td>
+                        <td id="totalPB_Jual">-</td>
+                    </tr>
+                    <tr>
+                        <td>Persediaan Akhir</td>
+                        <td id="totalPH_Beli">-</td>
+                        <td id="totalPH_Jual">-</td>
+                    </tr>
+                    <tr style="font-weight: bold;">
+                        <td>Beban</td>
+                        <td colspan="2" id="totalBebanTabel">-</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const dbPA = JSON.parse(localStorage.getItem('dbPersediaanAwal')) || [];
+        const dbPB = JSON.parse(localStorage.getItem('dbPembelian')) || [];
+        const dbPH = JSON.parse(localStorage.getItem('dbPersediaanAkhir')) || [];
+        const dbBeban = JSON.parse(localStorage.getItem('dbBeban')) || [
+            { nama: "Sewa Tempat", jumlah: 500000 },
+            { nama: "Listrik & Air", jumlah: 150000 },
+            { nama: "Gaji Karyawan", jumlah: 1200000 },
+            { nama: "Biaya Promosi", jumlah: 300000 }
+        ];
+
+        let labaRugiChart = null;
+
+        function hitungTotalKomponen(data, tipeHarga) {
+            return data.reduce((sum, item) => {
+                if (item.kuantitas && item[tipeHarga]) {
+                    return sum + (item.kuantitas * item[tipeHarga]);
+                }
+                return sum;
+            }, 0);
+        }
+
+        function hitungLabaRugi() {
+            const totalPA_Beli = hitungTotalKomponen(dbPA, 'hargaBeli');
+            const totalPA_Jual = hitungTotalKomponen(dbPA, 'hargaJual');
+            const totalPB_Beli = hitungTotalKomponen(dbPB, 'hargaBeli');
+            const totalPB_Jual = hitungTotalKomponen(dbPB, 'hargaJual');
+            const totalPH_Beli = hitungTotalKomponen(dbPH, 'hargaBeli');
+            const totalPH_Jual = hitungTotalKomponen(dbPH, 'hargaJual');
+            const totalBeban = dbBeban.reduce((sum, beban) => sum + (beban.jumlah || 0), 0);
+
+            const totalPenjualan = totalPA_Jual + totalPB_Jual - totalPH_Jual;
+            const totalHPP = totalPA_Beli + totalPB_Beli - totalPH_Beli;
+            const nilaiLabaRugi = totalPenjualan - totalHPP - totalBeban;
+            const labaRugiLabel = nilaiLabaRugi >= 0 ? "Laba Bersih" : "Rugi Bersih";
+
+            document.getElementById('totalPenjualan').textContent = formatAngka(totalPenjualan);
+            document.getElementById('totalHPP').textContent = formatAngka(totalHPP);
+            document.getElementById('totalBeban').textContent = formatAngka(totalBeban);
+            document.getElementById('labaRugiLabel').textContent = labaRugiLabel;
+            document.getElementById('nilaiLabaRugi').textContent = formatAngka(Math.abs(nilaiLabaRugi));
+
+            document.getElementById('totalPA_Beli').textContent = formatAngka(totalPA_Beli);
+            document.getElementById('totalPA_Jual').textContent = formatAngka(totalPA_Jual);
+            document.getElementById('totalPB_Beli').textContent = formatAngka(totalPB_Beli);
+            document.getElementById('totalPB_Jual').textContent = formatAngka(totalPB_Jual);
+            document.getElementById('totalPH_Beli').textContent = formatAngka(totalPH_Beli);
+            document.getElementById('totalPH_Jual').textContent = formatAngka(totalPH_Jual);
+            document.getElementById('totalBebanTabel').textContent = formatAngka(totalBeban);
+
+            document.getElementById('calcAlert').style.display = 'block';
+            setTimeout(() => document.getElementById('calcAlert').style.display = 'none', 3000);
+
+            buatGrafik(totalPenjualan, totalHPP, totalBeban, nilaiLabaRugi);
+        }
+
+        function buatGrafik(penjualan, hpp, beban, labaRugi) {
+            const ctx = document.getElementById('labaRugiChart').getContext('2d');
+
+            if (labaRugiChart) labaRugiChart.destroy();
+
+            const labels = ['Total Penjualan', 'HPP', 'Total Beban', labaRugi >= 0 ? 'Laba Bersih' : 'Rugi Bersih'];
+            const dataValues = [penjualan, hpp, beban, Math.abs(labaRugi)];
+            const colors = [
+                '#007bff',
+                '#ffc107',
+                '#dc3545',
+                labaRugi >= 0 ? '#28a745' : '#6610f2'
+            ];
+
+            labaRugiChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Nilai (Rp)',
+                        data: dataValues,
+                        backgroundColor: colors,
+                        borderWidth: 1,
+                        borderRadius: 5,
+                        borderSkipped: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    layout: {
+                        padding: {
+                            left: 10,
+                            right: 10,
+                            top: 10,
+                            bottom: 10
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Nilai (Rp)',
+                                font: { 
+                                    size: 14,
+                                    weight: 'bold'
+                                }
+                            },
+                            ticks: {
+                                font: { size: 12 },
+                                padding: 8,
+                                callback: function(value) {
+                                    return formatAngka(value);
+                                }
+                            },
+                            grid: {
+                                drawBorder: false
+                            }
+                        },
+                        x: {
+                            ticks: { 
+                                font: { size: 12 },
+                                padding: 8,
+                                maxRotation: 0,
+                                minRotation: 0
+                            },
+                            grid: {
+                                display: false
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            fontSize: 12,
+                            padding: 10,
+                            callbacks: {
+                                label: function(context) {
+                                    return `Nilai: Rp ${formatAngka(context.raw)}`;
+                                }
+                            }
+                        }
+                    },
+                    animation: {
+                        duration: 1000,
+                        easing: 'easeOutQuart'
+                    },
+                    // Konfigurasi tambahan untuk konsistensi tampilan
+                    barPercentage: 0.7,
+                    categoryPercentage: 0.8
+                }
+            });
+        }
+
+        function formatAngka(angka) {
+            return angka.toLocaleString('id-ID', {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            });
+        }
+
+        window.onload = function() {
+            const totalPA_Beli = hitungTotalKomponen(dbPA, 'hargaBeli');
+            const totalPA_Jual = hitungTotalKomponen(dbPA, 'hargaJual');
+            const totalPB_Beli = hitungTotalKomponen(dbPB, 'hargaBeli');
+            const totalPB_Jual = hitungTotalKomponen(dbPB, 'hargaJual');
+            const totalPH_Beli = hitungTotalKomponen(dbPH, 'hargaBeli');
+            const totalPH_Jual = hitungTotalKomponen(dbPH, 'hargaJual');
+            const totalBeban = dbBeban.reduce((sum, beban) => sum + beban.nilai,0);
+        }

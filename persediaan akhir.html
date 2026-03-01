@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Data Persediaan Akhir</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #25a18e 0%, #4cc9f0 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .site-header {
+            max-width: 900px;
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 0;
+        }
+        .site-logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .site-logo span {
+            color: #ffd166;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 0 15px;
+            width: 100%;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 25px;
+            font-size: clamp(22px, 5vw, 28px);
+            font-weight: bold;
+        }
+        .input-section, .data-section {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        h3 {
+            font-size: clamp(18px, 4vw, 20px);
+            margin-bottom: 15px;
+            color: #2d3436;
+        }
+        .form-group, .input-group {
+            margin-bottom: 15px;
+        }
+        label {
+            font-size: clamp(14px, 3vw, 16px);
+            display: block;
+            margin-bottom: 8px;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            font-size: clamp(14px, 3vw, 16px);
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            max-width: 100%;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: clamp(16px, 3vw, 18px);
+            background-color: #ffc107;
+            color: #212529;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            min-width: 120px;
+        }
+        button:hover {
+            background-color: #e0a800;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: clamp(12px, 3vw, 16px);
+            display: block;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            min-width: 100px;
+        }
+        th {
+            background-color: #e9ecef;
+            font-size: clamp(13px, 3vw, 17px);
+        }
+        .total-row {
+            font-weight: bold;
+            background-color: #e9ecef;
+        }
+        .alert {
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            display: none;
+            font-size: clamp(14px, 3vw, 16px);
+        }
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .nav-link {
+            display: inline-block;
+            margin-bottom: 15px;
+            margin-right: 10px;
+            padding: 8px 15px;
+            background-color: #6c757d;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: clamp(14px, 3vw, 16px);
+            min-width: 180px;
+            text-align: center;
+            margin-top: 10px;
+        }
+        .nav-link:hover {
+            background-color: #5a6268;
+        }
+        .next-period-note {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #e3f2fd;
+            border-radius: 4px;
+            font-size: clamp(14px, 3vw, 16px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Website -->
+    <header class="site-header">
+        <div class="site-logo">Si <span>Labaku</span></div>
+    </header>
+    <div class="container">
+
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Beranda</a></li>
+            
+        </ul>
+        <h2>Input Data Persediaan Akhir</h2>
+        
+        <a href="#persediaan-awal" class="nav-link">Ke Input Persediaan Awal</a>
+        <a href="#pembelian" class="nav-link">Ke Input Pembelian</a>
+
+        <div class="input-section">
+            <div class="alert alert-success" id="successAlert">
+                Data persediaan akhir berhasil disimpan! <br>
+                Data ini telah diatur sebagai persediaan awal untuk periode berikutnya.
+            </div>
+            
+            <h3>Form Input Persediaan Akhir</h3>
+            <div class="form-group">
+                    <label for="periodeAkhir">Periode:</label>
+                    <input type="date" id="periodeAkhir" required>
+            </div>
+            <div class="form-group">
+                <label for="namaBarangAkhir">Nama Barang (Otomatis dari Persediaan Awal & Pembelian):</label>
+                <select id="namaBarangAkhir" required>
+                    <option value="">-- Pilih Barang --</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="kuantitasAkhir">Kuantitas:</label>
+                <input type="number" id="kuantitasAkhir" min="0" required>
+            </div>
+            <div class="form-group">
+                <label for="hargaBeliAkhir">Harga Beli per Unit (Rp):</label>
+                <input type="number" id="hargaBeliAkhir" min="1" required>
+            </div>
+            <div class="form-group">
+                <label for="hargaJualAkhir">Harga Jual per Unit (Rp):</label>
+                <input type="number" id="hargaJualAkhir" min="1" required>
+            </div>
+            <button onclick="simpanDataPersediaanAkhir()">Simpan Data Akhir</button>
+            <button onclick="resetFormAkhir()">Reset Form</button>
+
+            <div class="next-period-note">
+                <strong>Catatan:</strong> Persediaan akhir periode ini akan menjadi persediaan awal untuk periode berikutnya secara otomatis.
+            </div>
+        </div>
+
+        <div class="data-section">
+            <h3>Daftar Persediaan Akhir yang Tersimpan</h3>
+            <table id="tablePersediaanAkhir">
+                <thead>
+                    <tr>
+                        <th>Periode</th>
+                        <th>Nama Barang</th>
+                        <th>Kuantitas</th>
+                        <th>Harga Beli/Unit (Rp)</th>
+                        <th>Harga Jual/Unit (Rp)</th>
+                        <th>Total Harga Beli (Rp)</th>
+                        <th>Total Harga Jual (Rp)</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="5">TOTAL PERSEDIAAN AKHIR</td>
+                        <td id="grandTotalBeliAkhir">-</td>
+                        <td id="grandTotalJualAkhir">-</td>
+                    </tr>
+                </tfoot>
+            </table>
+
+            <h3 style="margin-top: 25px;">Persediaan Awal untuk Periode Berikutnya</h3>
+            <table id="tablePersediaanAwalBerikutnya">
+                <thead>
+                    <tr>
+                        <th>Periode Berikutnya</th>
+                        <th>Nama Barang</th>
+                        <th>Kuantitas</th>
+                        <th>Harga Beli/Unit (Rp)</th>
+                        <th>Harga Jual/Unit (Rp)</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        let databasePersediaanAwal = JSON.parse(localStorage.getItem('dbPersediaanAwal')) || [];
+        let databasePembelian = JSON.parse(localStorage.getItem('dbPembelian')) || [];
+        let databasePersediaanAkhir = JSON.parse(localStorage.getItem('dbPersediaanAkhir')) || [];
+        let daftarNamaBarang = [
+            ...new Set([
+                ...databasePersediaanAwal.map(item => item?.namaBarang || ''),
+                ...databasePembelian.map(item => item?.namaBarang || '')
+            ])
+        ].filter(barang => barang !== '');
+
+        window.onload = function() {
+            document.getElementById('successAlert').style.display = 'none';
+            muatDaftarBarang();
+            perbaruiTabelAkhir();
+            perbaruiTabelAwalBerikutnya();
+        };
+
+        function muatDaftarBarang() {
+            const select = document.getElementById('namaBarangAkhir');
+            select.innerHTML = '<option value="">-- Pilih Barang --</option>';
+            daftarNamaBarang.forEach(barang => {
+                const option = document.createElement('option');
+                option.value = barang;
+                option.textContent = barang;
+                select.appendChild(option);
+            });
+        }
+
+        function getPeriodeBerikutnya(periode) {
+            if (!periode) return '';
+            const [tahun, bulan] = periode.split('-').map(Number);
+            if (bulan === 12) {
+                return `${tahun + 1}-01`;
+            } else {
+                return `${tahun}-${(bulan + 1).toString().padStart(2, '0')}`;
+            }
+        }
+
+        function simpanDataPersediaanAkhir() {
+            const periode = document.getElementById('periodeAkhir').value;
+            const namaBarang = document.getElementById('namaBarangAkhir').value;
+            const kuantitas = parseInt(document.getElementById('kuantitasAkhir').value);
+            const hargaBeli = parseInt(document.getElementById('hargaBeliAkhir').value);
+            const hargaJual = parseInt(document.getElementById('hargaJualAkhir').value);
+
+            if (!periode || !namaBarang || isNaN(kuantitas) || isNaN(hargaBeli) || isNaN(hargaJual)) {
+                alert('Harap isi semua kolom dengan nilai yang valid!');
+                return;
+            }
+
+            const totalHargaBeli = kuantitas * hargaBeli;
+            const totalHargaJual = kuantitas * hargaJual;
+
+            const dataBaru = {
+                periode, namaBarang, kuantitas, hargaBeli, hargaJual, totalHargaBeli, totalHargaJual
+            };
+            databasePersediaanAkhir.push(dataBaru);
+            localStorage.setItem('dbPersediaanAkhir', JSON.stringify(databasePersediaanAkhir));
+
+            const periodeBerikutnya = getPeriodeBerikutnya(periode);
+            const dataAwalBerikutnya = {
+                periode: periodeBerikutnya,
+                namaBarang: namaBarang,
+                kuantitas: kuantitas,
+                hargaBeli: hargaBeli,
+                hargaJual: hargaJual,
+                totalHargaBeli: totalHargaBeli,
+                totalHargaJual: totalHargaJual
+            };
+
+            databasePersediaanAwal = databasePersediaanAwal.filter(item => item.periode !== periodeBerikutnya);
+            databasePersediaanAwal.push(dataAwalBerikutnya);
+            localStorage.setItem('dbPersediaanAwal', JSON.stringify(databasePersediaanAwal));
+
+            perbaruiTabelAkhir();
+            perbaruiTabelAwalBerikutnya();
+
+            document.getElementById('successAlert').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('successAlert').style.display = 'none';
+            }, 5000);
+
+            resetFormAkhir();
+        }
+
+        function perbaruiTabelAkhir() {
+            const tbody = document.getElementById('tablePersediaanAkhir').getElementsByTagName('tbody')[0];
+            tbody.innerHTML = '';
+
+            let TotalBeli = 0;
+            let TotalJual = 0;
+
+            databasePersediaanAkhir.forEach(data => {
+                const row = tbody.insertRow();
+                row.insertCell().textContent = data.periode;
+                row.insertCell().textContent = data.namaBarang;
+                row.insertCell().textContent = data.kuantitas;
+                row.insertCell().textContent = formatAngka(data.hargaBeli);
+                row.insertCell().textContent = formatAngka(data.hargaJual);
+                row.insertCell().textContent = formatAngka(data.totalHargaBeli);
+                row.insertCell().textContent = formatAngka(data.totalHargaJual);
+
+                TotalBeli += data.totalHargaBeli;
+                TotalJual += data.totalHargaJual;
+            });
+
+            document.getElementById('TotalBeliAkhir').textContent = TotalBeli > 0 ? formatAngka(TotalBeli) : '-';
+            document.getElementById('TotalJualAkhir').textContent = TotalJual > 0 ? formatAngka(TotalJual) : '-';
+        }
+
+        function perbaruiTabelAwalBerikutnya() {
+            const tbody = document.getElementById('tablePersediaanAwalBerikutnya').getElementsByTagName('tbody')[0];
+            tbody.innerHTML = '';
+
+            const periodeTerbaru = databasePersediaanAkhir.length > 0 
+                ? databasePersediaanAkhir[databasePersediaanAkhir.length - 1].periode 
+                : '';
+            const periodeBerikutnya = periodeTerbaru ? getPeriodeBerikutnya(periodeTerbaru) : '';
+
+            const dataAwalBerikutnya = databasePersediaanAwal.filter(item => item.periode === periodeBerikutnya);
+            dataAwalBerikutnya.forEach(data => {
+                const row = tbody.insertRow();
+                row.insertCell().textContent = data.periode;
+                row.insertCell().textContent = data.namaBarang;
+                row.insertCell().textContent = data.kuantitas;
+                row.insertCell().textContent = formatAngka(data.hargaBeli);
+                row.insertCell().textContent = formatAngka(data.hargaJual);
+            });
+        }
+
+        function resetFormAkhir() {
+            document.getElementById('periodeAkhir').value = '';
+            document.getElementById('namaBarangAkhir').value = '';
+            document.getElementById('kuantitasAkhir').value = '';
+            document.getElementById('hargaBeliAkhir').value = '';
+            document.getElementById('hargaJualAkhir').value = '';
+        }
+
+        function formatAngka(angka) {
+            return angka.toLocaleString('id-ID');
+        }
+    </script>
+</body>
+</html>

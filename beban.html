@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Data Pembelian</title>
+    <!-- Elemen <div> dan <li> tidak boleh ada di dalam <head>, dipindahkan ke <body> -->
+    
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #25a18e 0%, #4cc9f0 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .site-header {
+            max-width: 900px;
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 0;
+        }
+        .site-logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .site-logo span {
+            color: #ffd166;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        /* Penyesuaian untuk breadcrumb */
+        .breadcrumb {
+            padding: 15px 20px;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #ddd;
+            list-style: none;
+        }
+        .breadcrumb-item {
+            display: inline-block;
+        }
+        .breadcrumb-item a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        .breadcrumb-item a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 0 15px;
+            width: 100%; /* Memastikan lebar penuh di perangkat kecil */
+        }
+        .section {
+            background-color: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
+            width: 100%; /* Menyesuaikan lebar di semua perangkat */
+        }
+        h2 {
+            color: #2c3e50;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 8px;
+            display: inline-block;
+            font-size: clamp(1.5rem, 3vw, 2rem); /* Responsif ukuran font */
+        }
+        h3 {
+            color: #34495e;
+            margin-bottom: 15px;
+            font-size: clamp(1.2rem, 2.5vw, 1.5rem); /* Responsif ukuran font */
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font-size: clamp(1rem, 2vw, 1.125rem); /* Responsif ukuran font */
+            color: #34495e;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: clamp(1rem, 2vw, 1.125rem); /* Responsif ukuran font */
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+            transition: all 0.3s ease;
+            -webkit-appearance: none; /* Menghilangkan gaya default di Android */
+            appearance: none;
+        }
+        input:focus, select:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+        }
+        /* Penyesuaian untuk tombol agar tidak terlalu kecil di Android */
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap; /* Membungkus tombol di layar kecil */
+        }
+        .btn {
+            padding: 12px 25px;
+            font-size: clamp(1rem, 2vw, 1.125rem);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background-color: #2ecc71;
+            color: white;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            flex: 1; /* Membagi lebar secara merata di layar kecil */
+            min-width: 120px; /* Jaga ukuran minimum tombol */
+        }
+        .btn:hover {
+            background-color: #27ae60;
+        }
+        .btn-reset {
+            background-color: #e74c3c;
+        }
+        .btn-reset:hover {
+            background-color: #c0392b;
+        }
+        .alert {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            font-size: clamp(0.9rem, 1.8vw, 1rem);
+        }
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .table-container {
+            margin-top: 25px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch; /* Meningkatkan scroll di iOS/Android */
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th {
+            background-color: #34495e;
+            color: white;
+            padding: 14px;
+            text-align: left;
+            font-size: clamp(0.9rem, 1.8vw, 1rem);
+            white-space: nowrap; /* Mencegah teks header tabel terpotong */
+        }
+        td {
+            padding: 14px;
+            border-bottom: 1px solid #e0e0e0;
+            color: #34495e;
+            font-size: clamp(0.9rem, 1.8vw, 1rem);
+        }
+        tr:nth-child(even) {
+            background-color: #f1f3f5;
+        }
+        .total-row {
+            font-weight: bold;
+            background-color: #e3f2fd;
+        }
+        .nominal-format {
+            text-align: right;
+            white-space: nowrap;
+        }
+        small {
+            font-size: clamp(0.8rem, 1.5vw, 0.9rem);
+            color: #6c757d;
+            margin-top: 5px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Website -->
+    <header class="site-header">
+        <div class="site-logo">Si <span>Labaku</span></div>
+    </header>
+    <!-- Breadcrumb dipindahkan ke dalam body -->
+    <ul class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Beranda</a></li>
+    </ul>
+
+    <div class="container">
+        <div class="section">
+            <h2>Input Pengeluaran (Beban)</h2>
+            <div class="alert alert-success" id="successAlert">Data beban berhasil disimpan! Total beban telah diperbarui.</div>
+
+            <!-- Form Input Beban -->
+            <form id="formBeban">
+                <div class="input-group">
+                    <label for="periodeBeban">Periode:</label>
+                    <input type="date" id="periodeBeban" required>
+                </div>
+                <div class="input-group">
+                    <label for="namaBeban">Nama Beban:</label>
+                    <input type="text" id="namaBeban" placeholder="Contoh: Sewa Tempat, Listrik, Gaji Karyawan" required>
+                </div>
+                <div class="input-group">
+                    <label for="kuantitasBeban">Kuantitas (jika ada):</label>
+                    <input type="number" id="kuantitasBeban" min="0" value="0" required>
+                    <small>Isi 0 jika beban tidak berdasarkan kuantitas.</small>
+                </div>
+                <div class="input-group">
+                    <label for="nominalSatuanBeban">Nominal per Unit (Rp):</label>
+                    <input type="number" id="nominalSatuanBeban" min="0" value="0" required>
+                    <small>Isi total beban langsung di sini jika tidak ada kuantitas.</small>
+                </div>
+
+                <!-- Kelompok tombol untuk penyesuaian tampilan -->
+                <div class="btn-group">
+                    <button type="button" class="btn" onclick="simpanDataBeban()">Simpan Data Beban</button>
+                    <button type="reset" class="btn btn-reset">Reset Form</button>
+                </div>
+            </form>
+
+            <!-- Tabel Daftar Beban & Total -->
+            <div class="table-container">
+                <h3>Daftar Beban yang Tersimpan</h3>
+                <table id="tableBeban">
+                    <thead>
+                        <tr>
+                            <th>Periode</th>
+                            <th>Nama Beban</th>
+                            <th>Kuantitas</th>
+                            <th>Nominal/Unit (Rp)</th>
+                            <th>Total Nominal (Rp)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyBeban">
+                        <!-- Data akan ditampilkan di sini -->
+                    </tbody>
+                    <tfoot>
+                        <tr class="total-row">
+                            <td colspan="4">TOTAL SEMUA BEBAN</td>
+                            <td class="nominal-format" id="totalSemuaBeban">-</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simulasi database dengan localStorage
+        let dbBeban = JSON.parse(localStorage.getItem('dbBeban')) || [];
+
+        // Tampilkan data beban saat halaman dimuat
+        window.onload = function() {
+            document.getElementById('successAlert').style.display = 'none';
+            tampilkanDataBeban();
+        };
+
+        // Fungsi hitung total nominal per beban
+        function hitungTotalNominal(kuantitas, nominalSatuan) {
+            // Jika kuantitas = 0, total = nominal satuan (total langsung)
+            return kuantitas === 0 ? nominalSatuan : kuantitas * nominalSatuan;
+        }
+
+        // Fungsi simpan data beban
+        function simpanDataBeban() {
+            const periode = document.getElementById('periodeBeban').value;
+            const nama = document.getElementById('namaBeban').value.trim();
+            const kuantitas = parseInt(document.getElementById('kuantitasBeban').value);
+            const nominalSatuan = parseInt(document.getElementById('nominalSatuanBeban').value);
+            const totalNominal = hitungTotalNominal(kuantitas, nominalSatuan);
+
+            // Validasi input tidak kosong atau angka negatif
+            if (!periode || !nama || isNaN(kuantitas) || isNaN(nominalSatuan) || kuantitas < 0 || nominalSatuan < 0) {
+                alert("Silakan isi semua field dengan benar!");
+                return;
+            }
+
+            // Simpan ke database
+            const dataBaru = { periode, nama, kuantitas, nominalSatuan, totalNominal };
+            dbBeban.push(dataBaru);
+            localStorage.setItem('dbBeban', JSON.stringify(dbBeban));
+
+            // Tampilkan pesan sukses
+            document.getElementById('successAlert').style.display = 'block';
+            setTimeout(() => document.getElementById('successAlert').style.display = 'none', 3000);
+
+            // Reset form
+            document.getElementById('formBeban').reset();
+
+            // Perbarui tampilan tabel
+            tampilkanDataBeban();
+        }
+
+        // Fungsi tampilkan data beban ke tabel
+        function tampilkanDataBeban() {
+            const tbody = document.getElementById('tbodyBeban');
+            tbody.innerHTML = '';
+
+            let totalSemua = 0;
+
+            dbBeban.forEach(beban => {
+                const row = tbody.insertRow();
+                row.insertCell().textContent = formatPeriode(beban.periode);
+                row.insertCell().textContent = beban.nama;
+                row.insertCell().textContent = beban.kuantitas;
+                row.insertCell().textContent = formatAngka(beban.nominalSatuan);
+                row.insertCell().textContent = formatAngka(beban.totalNominal);
+                row.cells[4].classList.add('nominal-format');
+
+                totalSemua += beban.totalNominal;
+            });
+
+            // Tampilkan total semua beban
+            document.getElementById('totalSemuaBeban').textContent = totalSemua > 0 ? formatAngka(totalSemua) : '-';
+        }
+
+        // Fungsi bantuan: format periode ke bahasa Indonesia
+        function formatPeriode(periode) {
+            if (!periode) return '-';
+            const [tahun, bulan] = periode.split('-');
+            const namaBulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", 
+                               "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+            return `${namaBulan[bulan - 1]} ${tahun}`;
+        }
+
+        // Fungsi bantuan: format angka ke format Indonesia
+        function formatAngka(angka) {
+            return angka.toLocaleString('id-ID');
+        }
+    </script>
+</body>
+</html>

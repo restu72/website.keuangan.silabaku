@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Si Labaku - Daftar Akun</title>
+    <!-- Tambahkan ikon website jika ada -->
+    <link rel="shortcut icon" href="#" type="image/x-icon">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            /* Warna tema disesuaikan dengan konsep laboratorium (biru muda + hijau) */
+            background: linear-gradient(135deg, #25a18e 0%, #4cc9f0 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        /* Header Website */
+        .site-header {
+            max-width: 900px;
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 0;
+        }
+        .site-logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .site-logo span {
+            color: #ffd166;
+        }
+        .container {
+            max-width: 420px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+            overflow: hidden;
+        }
+        .tab-header {
+            display: flex;
+            background-color: #f8f9fa;
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 18px;
+            border: none;
+            background: transparent;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #555;
+        }
+        .tab-btn.active {
+            background: white;
+            color: #25a18e;
+            border-bottom: 2px solid #25a18e;
+        }
+        .tab-content {
+            padding: 30px;
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        /* Judul dengan tema Si Labaku */
+        .section-title {
+            color: #2d3e40;
+            margin-bottom: 25px;
+            text-align: center;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .section-title::before,
+        .section-title::after {
+            content: "";
+            width: 30px;
+            height: 2px;
+            background-color: #25a18e;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font-size: 14px;
+            color: #2d3e40;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+        input:focus {
+            outline: none;
+            border-color: #25a18e;
+            box-shadow: 0 0 0 2px rgba(37, 161, 142, 0.15);
+        }
+        .btn-action {
+            width: 100%;
+            padding: 13px;
+            background: #25a18e;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .btn-action:hover {
+            background: #1a7a6b;
+        }
+        .alert {
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            display: none;
+            text-align: center;
+        }
+        .alert.success {
+            background: #d4edda;
+            color: lch(32.04% 40.28 144.12);
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+        .alert.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+        /* Bagian link dan footer */
+        .action-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 20px 0 15px;
+        }
+        .card-footer {
+            text-align: center;
+            padding: 20px 0 10px;
+            border-top: 1px solid #eee;
+            margin-top: 15px;
+        }
+        .small {
+            font-size: 14px;
+            color: #555;
+        }
+        .small a {
+            color: #25a18e;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .small a:hover {
+            text-decoration: underline;
+        }
+        /* Style khusus untuk konfirmasi password */
+        .password-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Website Si Labaku -->
+    <header class="site-header">
+        <div class="site-logo">Si <span>Labaku</span></div>
+    </header>
+
+    <main>
+        <!-- Container Daftar Akun -->
+        <div id="auth-container" class="container">
+            
+
+            <!-- Tab DAFTAR -->
+            <div id="register" class="tab-content active">
+                <div id="register-alert" class="alert"></div>
+                
+                <h3 class="section-title">Daftar ke Si Labaku</h3>
+                
+                <form id="register-form">
+                    <div class="input-group">
+                        <label for="reg-username">Nama Pengguna</label>
+                        <input type="text" id="reg-username" required placeholder="Nama lengkap">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="reg-email">Email</label>
+                        <input type="email" id="reg-email" required placeholder="email">
+                    </div>
+                    
+                    <div class="input-group password-group">
+                        <label for="reg-password">Kata Sandi</label>
+                        <input type="password" id="reg-password" required placeholder="Minimal 6 karakter (huruf + angka)">
+                        
+                        <label for="inputPasswordConfirm">Konfirmasi Kata Sandi</label>
+                        <input type="password" id="inputPasswordConfirm" required placeholder="Ulangi kata sandi yang sama">
+                    </div>
+
+                    <button type="submit" class="btn-action">Daftar Sekarang</button>
+
+                    <div class="card-footer">
+                        <div class="small">Sudah punya akun? <a href="login.html">Login di sini</a></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Fungsi untuk mengganti tab (disesuaikan untuk tema Si Labaku)
+        function showTab(tabName) {
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            tabBtns.forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(tabName).classList.add('active');
+            document.querySelector(`.tab-btn[onclick="showTab('${tabName}')"]`).classList.add('active');
+            
+            // Sembunyikan alert saat berganti tab
+            document.getElementById('register-alert').style.display = 'none';
+        }
+
+        // Simulasi penyimpanan data pengguna (disesuaikan untuk Si Labaku)
+        let registeredUsers = JSON.parse(localStorage.getItem('silabaku_users')) || [];
+
+        // Proses Daftar Akun dengan validasi tambahan
+        document.getElementById('register-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const regAlert = document.getElementById('register-alert');
+            const username = document.getElementById('reg-username').value.trim();
+            const email = document.getElementById('reg-email').value.trim();
+            const password = document.getElementById('reg-password').value;
+            const confirmPassword = document.getElementById('inputPasswordConfirm').value;
+
+            // Validasi tambahan sesuai konteks Si Labaku
+            if (password.length < 6) {
+                regAlert.className = 'alert error';
+                regAlert.textContent = 'Kata sandi minimal 6 karakter!';
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                regAlert.className = 'alert error';
+                regAlert.textContent = 'Konfirmasi kata sandi tidak cocok!';
+                return;
+            }
+            
+            if (!email.includes('@gmail.com') && !email.includes('@gmail.com')) {
+                regAlert.className = 'alert error';
+                regAlert.textContent = 'Emai salah !';
+                return;
+            }
+
+            // Cek apakah username/email sudah terdaftar
+            const userExists = registeredUsers.some(user => user.username === username || user.email === email);
+            if (userExists) {
+                regAlert.className = 'alert error';
+                regAlert.textContent = 'Nama pengguna atau email sudah terdaftar di Si Labaku!';
+                return;
+            }
+
+            // Simpan data pengguna dengan nama key khusus Si Labaku
+            const newUser = { 
+                username: username, 
+                email: email, 
+                password: password,
+                role: 'user' // Tambah role untuk keperluan akses di website
+            };
+            registeredUsers.push(newUser);
+            localStorage.setItem('silabaku_users', JSON.stringify(registeredUsers));
+
+            // Tampilkan pesan sukses dengan tema Si Labaku
+            regAlert.className = 'alert success';
+            regAlert.textContent = 'Pendaftaran berhasil! Arahkan ke halaman login...';
+            this.reset();
+
+            // Arahkan ke halaman login setelah 2 detik
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 2500);
+        });
+    </script>
+</body>
+</html>

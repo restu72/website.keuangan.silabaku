@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Data Persediaan Awal</title>
+    <!-- Hapus elemen HTML yang salah ditempatkan di head -->
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #25a18e 0%, #4cc9f0 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .site-header {
+            max-width: 900px;
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 0;
+        }
+        .site-logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .site-logo span {
+            color: #ffd166;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 0 15px;
+            width: 100%; /* Pastikan sesuai layar */
+        }
+        /* Breadcrumb yang benar */
+        .breadcrumb {
+            margin: 15px 0;
+            padding: 10px 0;
+            font-size: clamp(14px, 3vw, 16px);
+        }
+        .breadcrumb-item {
+            display: inline-block;
+        }
+        .breadcrumb-item a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .breadcrumb-item a:hover {
+            text-decoration: underline;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 25px;
+            font-size: clamp(22px, 5vw, 28px); /* Responsif */
+            font-weight: bold;
+        }
+        .input-section, .data-section {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        h3 {
+            font-size: clamp(18px, 4vw, 20px); /* Responsif */
+            margin-bottom: 15px;
+            color: #2d3436;
+        }
+        .form-group, .input-group { /* Seragamkan kelas */
+            margin-bottom: 15px;
+        }
+        label {
+            font-size: clamp(14px, 3vw, 16px); /* Responsif */
+            display: block;
+            margin-bottom: 8px;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            font-size: clamp(14px, 3vw, 16px); /* Responsif */
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            max-width: 100%;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: clamp(16px, 3vw, 18px); /* Responsif */
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 10px; /* Jarak di layar kecil */
+            min-width: 120px; /* Mudah ditekan di Android */
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: clamp(12px, 3vw, 16px); /* Responsif */
+            display: block;
+            overflow-x: auto; /* Bisa digeser di Android */
+            white-space: nowrap;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            min-width: 100px; /* Jaga kolom tidak terlalu sempit */
+        }
+        th {
+            background-color: #e9ecef;
+            font-size: clamp(13px, 3vw, 17px); /* Responsif */
+        }
+        .total-row {
+            font-weight: bold;
+            background-color: #e9ecef;
+        }
+        .alert {
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            display: none;
+            font-size: clamp(14px, 3vw, 16px);
+        }
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        /* Sesuaikan ukuran select daftar barang */
+        #daftarBarang {
+            font-size: clamp(14px, 3vw, 16px);
+            padding: 10px;
+            height: auto;
+            min-height: 150px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Website -->
+    <header class="site-header">
+        <div class="site-logo">Si <span>Labaku</span></div>
+    </header>
+    <div class="container">
+        <!-- Tempatkan breadcrumb di body dengan struktur yang benar -->
+        <div class="breadcrumb">
+            <span class="breadcrumb-item"><a href="index.html">Beranda</a></span>
+            
+        </div>
+
+        <h2>Input Data Persediaan Awal</h2>
+
+        <!-- Bagian Input Form -->
+        <div class="input-section">
+            <div class="alert alert-success" id="successAlert">Data berhasil disimpan! Daftar barang telah diperbarui.</div>
+            
+            <h3>Form Input Persediaan Awal</h3>
+            <!-- Perbaiki ID periodeBeban → periode agar sesuai dengan script -->
+            <div class="form-group">
+                <label for="periode">Periode:</label>
+                <input type="date" id="periode" required>
+            </div>
+            <div class="form-group">
+                <label for="namaBarang">Nama Barang:</label>
+                <input type="text" id="namaBarang" placeholder="Masukkan nama barang" required>
+            </div>
+            <div class="form-group">
+                <label for="kuantitas">Kuantitas:</label>
+                <input type="number" id="kuantitas" min="1" required>
+            </div>
+            <div class="form-group">
+                <label for="hargaBeli">Harga Beli per Unit (Rp):</label>
+                <input type="number" id="hargaBeli" min="1" required>
+            </div>
+            <div class="form-group">
+                <label for="hargaJual">Harga Jual per Unit (Rp):</label>
+                <input type="number" id="hargaJual" min="1" required>
+            </div>
+            <button onclick="simpanDataPersediaan()">Simpan Data</button>
+            <button onclick="resetForm()">Reset Form</button>
+        </div>
+
+        <!-- Bagian Daftar Data & Daftar Barang -->
+        <div class="data-section">
+            <h3>Daftar Persediaan Awal yang Tersimpan</h3>
+            <table id="tablePersediaanAwal">
+                <thead>
+                    <tr>
+                        <th>Periode</th>
+                        <th>Nama Barang</th>
+                        <th>Kuantitas</th>
+                        <th>Harga Beli/Unit (Rp)</th>
+                        <th>Harga Jual/Unit (Rp)</th>
+                        <th>Total Harga Beli (Rp)</th>
+                        <th>Total Harga Jual (Rp)</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="5">TOTAL</td>
+                        <td id="TotalBeli">-</td>
+                        <td id="TotalJual">-</td>
+                    </tr>
+                </tfoot>
+            </table>
+
+            <h3 style="margin-top: 25px;">Daftar Nama Barang (Otomatis untuk Pembelian & Persediaan Akhir)</h3>
+            <select id="daftarBarang" size="5" style="width: 100%;">
+                <!-- Opsi barang akan ditambahkan otomatis -->
+            </select>
+        </div>
+    </div>
+
+    <script>
+        // Simulasi database dengan localStorage agar data tetap tersimpan
+        let databasePersediaanAwal = JSON.parse(localStorage.getItem('dbPersediaanAwal')) || [];
+        let daftarNamaBarang = [...new Set(databasePersediaanAwal.map(item => item.namaBarang))] || [];
+
+        // Fungsi untuk menyimpan data
+        function simpanDataPersediaan() {
+            // Ambil nilai dari form dengan ID yang benar
+            const periode = document.getElementById('periode').value;
+            const namaBarang = document.getElementById('namaBarang').value.trim();
+            const kuantitas = parseInt(document.getElementById('kuantitas').value);
+            const hargaBeli = parseInt(document.getElementById('hargaBeli').value);
+            const hargaJual = parseInt(document.getElementById('hargaJual').value);
+
+            // Validasi input
+            if (!periode || !namaBarang || isNaN(kuantitas) || isNaN(hargaBeli) || isNaN(hargaJual)) {
+                alert('Harap isi semua kolom dengan nilai yang valid!');
+                return;
+            }
+
+            // Hitung total per barang
+            const totalHargaBeli = kuantitas * hargaBeli;
+            const totalHargaJual = kuantitas * hargaJual;
+
+            // Simpan ke database
+            const dataBaru = {
+                periode, namaBarang, kuantitas, hargaBeli, hargaJual, totalHargaBeli, totalHargaJual
+            };
+            databasePersediaanAwal.push(dataBaru);
+            localStorage.setItem('dbPersediaanAwal', JSON.stringify(databasePersediaanAwal));
+
+            // Perbarui daftar nama barang (jika belum ada)
+            if (!daftarNamaBarang.includes(namaBarang)) {
+                daftarNamaBarang.push(namaBarang);
+                perbaruiDaftarBarang();
+            }
+
+            // Tampilkan data ke tabel
+            perbaruiTabelPersediaan();
+
+            // Tampilkan pesan sukses
+            document.getElementById('successAlert').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('successAlert').style.display = 'none';
+            }, 3000);
+
+            // Reset form
+            resetForm();
+        }
+
+        // Fungsi untuk memperbarui tabel persediaan awal
+        function perbaruiTabelPersediaan() {
+            const tbody = document.getElementById('tablePersediaanAwal').getElementsByTagName('tbody')[0];
+            tbody.innerHTML = '';
+
+            let grandTotalBeli = 0;
+            let grandTotalJual = 0;
+
+            databasePersediaanAwal.forEach(data => {
+                const row = tbody.insertRow();
+                row.insertCell().textContent = data.periode;
+                row.insertCell().textContent = data.namaBarang;
+                row.insertCell().textContent = data.kuantitas;
+                row.insertCell().textContent = formatAngka(data.hargaBeli);
+                row.insertCell().textContent = formatAngka(data.hargaJual);
+                row.insertCell().textContent = formatAngka(data.totalHargaBeli);
+                row.insertCell().textContent = formatAngka(data.totalHargaJual);
+
+                grandTotalBeli += data.totalHargaBeli;
+                grandTotalJual += data.totalHargaJual;
+            });
+
+            // Tampilkan grand total (jika ada data)
+            document.getElementById('grandTotalBeli').textContent = grandTotalBeli > 0 ? formatAngka(grandTotalBeli) : '-';
+            document.getElementById('grandTotalJual').textContent = grandTotalJual > 0 ? formatAngka(grandTotalJual) : '-';
+        }
+
+        // Fungsi untuk memperbarui daftar nama barang
+        function perbaruiDaftarBarang() {
+            const select = document.getElementById('daftarBarang');
+            select.innerHTML = '';
+            daftarNamaBarang.forEach(barang => {
+                const option = document.createElement('option');
+                option.value = barang;
+                option.textContent = barang;
+                select.appendChild(option);
+            });
+        }
+
+        // Fungsi bantuan
+        function resetForm() {
+            document.getElementById('periode').value = '';
+            document.getElementById('namaBarang').value = '';
+            document.getElementById('kuantitas').value = '';
+            document.getElementById('hargaBeli').value = '';
+            document.getElementById('hargaJual').value = '';
+        }
+
+        function formatAngka(angka) {
+            return angka.toLocaleString('id-ID');
+        }
+
+        // Inisialisasi saat halaman dimuat
+        window.onload = function() {
+            document.getElementById('successAlert').style.display = 'none';
+            perbaruiTabelPersediaan();
+            perbaruiDaftarBarang();
+        };
+    </script>
+</body>
+</html>

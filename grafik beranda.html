@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grafik</title>
+    <!-- CDN Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .section {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #2d3436;
+            text-align: center;
+        }
+
+        .chart-container {
+            height: clamp(300px, 45vw, 400px);
+            width: 100%;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="section">
+            <h3>Grafik Batang Laba & Rugi</h3>
+            <div class="chart-container">
+                <canvas id="labaRugiChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data contoh untuk grafik
+        const dataContoh = {
+            totalPenjualan: 5000000,
+            totalHPP: 2500000,
+            totalBeban: 1200000,
+            nilaiLabaRugi: 1300000 // Laba bersih
+        };
+
+        // Fungsi untuk memformat angka menjadi format Indonesia
+        function formatAngka(angka) {
+            return angka.toLocaleString('id-ID', {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            });
+        }
+
+        // Membuat grafik batang
+        const ctx = document.getElementById('labaRugiChart').getContext('2d');
+        const labaRugiChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Total Penjualan', 'HPP', 'Total Beban', 'Laba Bersih'],
+                datasets: [{
+                    label: 'Nilai (Rp)',
+                    data: [
+                        dataContoh.totalPenjualan,
+                        dataContoh.totalHPP,
+                        dataContoh.totalBeban,
+                        Math.abs(dataContoh.nilaiLabaRugi)
+                    ],
+                    backgroundColor: [
+                        '#007bff',
+                        '#ffc107',
+                        '#dc3545',
+                        dataContoh.nilaiLabaRugi >= 0 ? '#28a745' : '#6610f2'
+                    ],
+                    borderWidth: 1,
+                    borderRadius: 5,
+                    borderSkipped: false
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                layout: {
+                    padding: {
+                        left: 10,
+                        right: 10,
+                        top: 10,
+                        bottom: 10
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Nilai (Rp)',
+                            font: { 
+                                size: 14,
+                                weight: 'bold'
+                            }
+                        },
+                        ticks: {
+                            font: { size: 12 },
+                            padding: 8,
+                            callback: function(value) {
+                                return formatAngka(value);
+                            }
+                        },
+                        grid: {
+                            drawBorder: false
+                        }
+                    },
+                    x: {
+                        ticks: { 
+                            font: { size: 12 },
+                            padding: 8,
+                            maxRotation: 0,
+                            minRotation: 0
+                        },
+                        grid: {
+                            display: false
+                        }
+                    }
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        fontSize: 12,
+                        padding: 10,
+                        callbacks: {
+                            label: function(context) {
+                                return `Nilai: Rp ${formatAngka(context.raw)}`;
+                            }
+                        }
+                    }
+                },
+                animation: {
+                    duration: 1000,
+                    easing: 'easeOutQuart'
+                },
+                barPercentage: 0.7,
+                categoryPercentage: 0.8
+            }
+        });
+    </script>
+</body>
+</html>

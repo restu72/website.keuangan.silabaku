@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Data Pembelian</title>
+    <!-- Elemen <div> dan <li> tidak boleh ada di dalam <head>, dipindahkan ke <body> -->
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #25a18e 0%, #4cc9f0 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .site-header {
+            max-width: 900px;
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 0;
+        }
+        .site-logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .site-logo span {
+            color: #ffd166;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background-color: #fff; /* Tambahkan warna latar agar konsisten */
+        }
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 0 15px;
+            width: 100%; /* Pastikan lebar penuh di perangkat kecil */
+        }
+        /* Breadcrumb styling */
+        .breadcrumb {
+            list-style: none;
+            margin-bottom: 15px;
+            padding: 10px 0;
+        }
+        .breadcrumb-item {
+            display: inline-block;
+        }
+        .breadcrumb-item a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        .breadcrumb-item a:hover {
+            text-decoration: underline;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 25px;
+            font-size: clamp(22px, 5vw, 28px); /* Responsif dengan clamp */
+            font-weight: bold;
+        }
+        .input-section, .data-section {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            width: 100%; /* Pastikan tidak keluar dari kontainer */
+        }
+        h3 {
+            font-size: clamp(18px, 4vw, 20px); /* Responsif */
+            margin-bottom: 15px;
+            color: #2d3436;
+        }
+        .form-group, .input-group { /* Sesuaikan kelas yang sama untuk konsistensi */
+            margin-bottom: 15px;
+        }
+        label {
+            font-size: clamp(14px, 3vw, 16px); /* Responsif */
+            display: block;
+            margin-bottom: 8px;
+            color: #333; /* Tambahkan warna agar jelas di semua perangkat */
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            font-size: clamp(14px, 3vw, 16px); /* Responsif */
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            background-color: #fff; /* Tambahkan warna latar */
+        }
+        button {
+            padding: 10px 20px;
+            font-size: clamp(16px, 3vw, 18px); /* Responsif */
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 10px; /* Tambahkan jarak bawah di perangkat kecil */
+            width: auto;
+            min-width: 120px; /* Pastikan tombol tidak terlalu kecil */
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: clamp(12px, 2.5vw, 16px); /* Responsif */
+            overflow-x: auto; /* Tambahkan scroll horizontal jika tabel terlalu lebar */
+            display: block; /* Agar scroll berfungsi */
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            white-space: nowrap; /* Hindari teks terpotong */
+        }
+        th {
+            background-color: #e9ecef;
+            font-size: clamp(13px, 2.8vw, 17px); /* Responsif */
+        }
+        .total-row {
+            font-weight: bold;
+            background-color: #e9ecef;
+        }
+        .alert {
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            display: none;
+            font-size: clamp(14px, 3vw, 16px); /* Responsif */
+        }
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .nav-link {
+            display: inline-block;
+            margin-bottom: 15px;
+            margin-right: 10px; /* Tambahkan jarak antar link */
+            padding: 8px 15px;
+            background-color: #6c757d;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: clamp(14px, 3vw, 16px); /* Responsif */
+        }
+        .nav-link:hover {
+            background-color: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Website -->
+    <header class="site-header">
+        <div class="site-logo">Si <span>Labaku</span></div>
+    </header>
+
+    <div class="container">
+        <!-- Breadcrumb dipindahkan ke dalam <body> dan diberi struktur yang benar -->
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Beranda</a></li>
+            
+        </ul>
+
+        <h2>Input Data Pembelian</h2>
+        
+        <!-- Navigasi ke Modul Lain -->
+        <a href="#persediaan-awal" class="nav-link">Ke Input Persediaan Awal</a>
+        <a href="#persediaan-akhir" class="nav-link">Ke Input Persediaan Akhir</a>
+
+        <!-- Bagian Input Form Pembelian -->
+        <div class="input-section">
+            <div class="alert alert-success" id="successAlert">Data pembelian berhasil disimpan! Total telah dihitung dan tersimpan ke database.</div>
+            
+            <h3>Form Input Pembelian</h3>
+            <div class="form-group"> <!-- Konsistensi kelas dengan yang lain -->
+                    <label for="periodeBeban">Periode:</label>
+                    <input type="date" id="periodeBeban" required>
+            </div>
+            <div class="form-group">
+                <label for="namaBarangPembelian">Nama Barang (Otomatis dari Persediaan Awal):</label>
+                <select id="namaBarangPembelian" required>
+                    <option value="">-- Pilih Barang --</option>
+                    <!-- Opsi barang akan dimuat otomatis -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="kuantitasPembelian">Kuantitas:</label>
+                <input type="number" id="kuantitasPembelian" min="1" required>
+            </div>
+            <div class="form-group">
+                <label for="hargaBeliPembelian">Harga Beli per Unit (Rp):</label>
+                <input type="number" id="hargaBeliPembelian" min="1" required>
+            </div>
+            <div class="form-group">
+                <label for="hargaJualPembelian">Harga Jual per Unit (Rp):</label>
+                <input type="number" id="hargaJualPembelian" min="1" required>
+            </div>
+            <button onclick="simpanDataPembelian()">Simpan Data Pembelian</button>
+            <button onclick="resetFormPembelian()">Reset Form</button>
+        </div>
+
+        <!-- Bagian Daftar Data Pembelian yang Tersimpan -->
+        <div class="data-section">
+            <h3>Daftar Pembelian yang Tersimpan</h3>
+            <table id="tablePembelian">
+                <thead>
+                    <tr>
+                        <th>Periode</th>
+                        <th>Nama Barang</th>
+                        <th>Kuantitas</th>
+                        <th>Harga Beli/Unit (Rp)</th>
+                        <th>Harga Jual/Unit (Rp)</th>
+                        <th>Total Harga Beli (Rp)</th>
+                        <th>Total Harga Jual (Rp)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data akan ditampilkan di sini -->
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="5">TOTAL PEMBELIAN</td>
+                        <td id="TotalBeliPembelian">-</td>
+                        <td id="TotalJualPembelian">-</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Simulasi database (terhubung dengan data persediaan awal)
+        let databasePersediaanAwal = JSON.parse(localStorage.getItem('dbPersediaanAwal')) || [];
+        let databasePembelian = JSON.parse(localStorage.getItem('dbPembelian')) || [];
+        let daftarNamaBarang = databasePersediaanAwal.map(item => item.namaBarang).filter((val, idx, arr) => arr.indexOf(val) === idx);
+
+        // Inisialisasi saat halaman dimuat
+        window.onload = function() {
+            document.getElementById('successAlert').style.display = 'none';
+            muatDaftarBarang();
+            perbaruiTabelPembelian();
+        };
+
+        // Fungsi memuat daftar barang dari persediaan awal
+        function muatDaftarBarang() {
+            const select = document.getElementById('namaBarangPembelian');
+            select.innerHTML = '<option value="">-- Pilih Barang --</option>';
+            daftarNamaBarang.forEach(barang => {
+                const option = document.createElement('option');
+                option.value = barang;
+                option.textContent = barang;
+                select.appendChild(option);
+            });
+        }
+
+        // Fungsi menyimpan data pembelian
+        function simpanDataPembelian() {
+            // Ambil nilai dari form (perbaiki ID input periode)
+            const periode = document.getElementById('periodeBeban').value;
+            const namaBarang = document.getElementById('namaBarangPembelian').value;
+            const kuantitas = parseInt(document.getElementById('kuantitasPembelian').value);
+            const hargaBeli = parseInt(document.getElementById('hargaBeliPembelian').value);
+            const hargaJual = parseInt(document.getElementById('hargaJualPembelian').value);
+
+            // Validasi input tidak kosong dan angka valid
+            if (!periode || !namaBarang || isNaN(kuantitas) || isNaN(hargaBeli) || isNaN(hargaJual)) {
+                alert('Silakan isi semua field dengan nilai yang valid!');
+                return;
+            }
+
+            // Hitung total per barang
+            const totalHargaBeli = kuantitas * hargaBeli;
+            const totalHargaJual = kuantitas * hargaJual;
+
+            // Simpan ke database
+            const dataBaru = {
+                periode, namaBarang, kuantitas, hargaBeli, hargaJual, totalHargaBeli, totalHargaJual
+            };
+            databasePembelian.push(dataBaru);
+            localStorage.setItem('dbPembelian', JSON.stringify(databasePembelian));
+
+            // Perbarui tabel pembelian
+            perbaruiTabelPembelian();
+
+            // Tampilkan pesan sukses
+            document.getElementById('successAlert').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('successAlert').style.display = 'none';
+            }, 3000);
+
+            // Reset form
+            resetFormPembelian();
+        }
+
+        // Fungsi memperbarui tabel pembelian
+        function perbaruiTabelPembelian() {
+            const tbody = document.getElementById('tablePembelian').getElementsByTagName('tbody')[0];
+            tbody.innerHTML = '';
+
+            let grandTotalBeli = 0;
+            let grandTotalJual = 0;
+
+            // Tambahkan setiap baris data
+            databasePembelian.forEach(data => {
+                const row = tbody.insertRow();
+                row.insertCell().textContent = data.periode;
+                row.insertCell().textContent = data.namaBarang;
+                row.insertCell().textContent = data.kuantitas;
+                row.insertCell().textContent = formatAngka(data.hargaBeli);
+                row.insertCell().textContent = formatAngka(data.hargaJual);
+                row.insertCell().textContent = formatAngka(data.totalHargaBeli);
+                row.insertCell().textContent = formatAngka(data.totalHargaJual);
+
+                // Akumulasi grand total
+                grandTotalBeli += data.totalHargaBeli;
+                grandTotalJual += data.totalHargaJual;
+            });
+
+            // Tampilkan grand total
+            document.getElementById('grandTotalBeliPembelian').textContent = formatAngka(grandTotalBeli);
+            document.getElementById('grandTotalJualPembelian').textContent = formatAngka(grandTotalJual);
+        }
+
+        // Fungsi bantuan
+        function resetFormPembelian() {
+            // Perbaiki ID input periode
+            document.getElementById('periodeBeban').value = '';
+            document.getElementById('namaBarangPembelian').value = '';
+            document.getElementById('kuantitasPembelian').value = '';
+            document.getElementById('hargaBeliPembelian').value = '';
+            document.getElementById('hargaJualPembelian').value = '';
+        }
+
+        function formatAngka(angka) {
+            return angka.toLocaleString('id-ID');
+        }
+    </script>
+</body>
+</html>

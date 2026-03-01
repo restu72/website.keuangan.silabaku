@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perhitungan Laba Rugi</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Hapus div breadcrumb dari head, pindahkan ke body -->
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #25a18e 0%, #4cc9f0 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .site-header {
+            max-width: 900px;
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 0;
+        }
+        .site-logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .site-logo span {
+            color: #ffd166;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        /* Style breadcrumb */
+        .breadcrumb {
+            padding: 10px 15px;
+            background-color: #e9ecef;
+            margin-bottom: 20px;
+        }
+        .breadcrumb-item {
+            list-style: none;
+            display: inline;
+        }
+        .breadcrumb-item a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        .breadcrumb-item a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 25px;
+            font-size: clamp(22px, 5vw, 28px); /* Responsif berdasarkan ukuran layar */
+            font-weight: bold;
+        }
+        .data-section, .result-section, .chart-wrapper {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        h3 {
+            font-size: clamp(18px, 4vw, 20px);
+            margin-bottom: 15px;
+            color: #2d3436;
+        }
+        .form-group {
+            margin-bottom: 12px;
+        }
+        label {
+            font-size: 16px;
+            display: block;
+            margin-bottom: 5px;
+        }
+        input {
+            width: 100%;
+            padding: 10px; /* Tambah padding agar lebih nyaman di sentuh */
+            font-size: 16px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+            width: 100%; /* Full width di mobile, tetap baik di laptop */
+            max-width: 250px; /* Batasi lebar maksimal */
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result-item {
+            font-size: clamp(16px, 3vw, 18px);
+            margin-bottom: 8px;
+            padding: 5px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        /* Atur ukuran grafik agar responsif */
+        .chart-wrapper canvas {
+            max-height: 400px;
+            width: 100% !important;
+            height: auto !important;
+        }
+        /* Pesan error untuk API */
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Website -->
+    <header class="site-header">
+        <div class="site-logo">Si <span>Labaku</span></div>
+    </header>
+    <!-- Pindahkan breadcrumb ke body -->
+    <ul class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Beranda</a></li>
+       
+    </ul>
+
+    <div class="container">
+        <h2>Perhitungan Penjualan, HPP & Total Beban</h2>
+
+        <!-- Bagian Input Data -->
+        <div class="data-section">
+            <h3>Input Data Persediaan & Beban</h3>
+            
+            <!-- Pesan error jika API tidak dapat diakses -->
+            <div id="apiError" class="error-message" style="display: none;">
+                Data dari API (persediaan-awal dan pembelian) tidak dapat diakses. Silakan masukkan data secara manual atau coba lagi nanti.
+            </div>
+
+            <!-- Data Harga Jual -->
+            <div class="form-group">
+                <label for="hargaJualPA">Harga Jual Persediaan Awal (PA) (Rp):</label>
+                <input type="number" id="hargaJualPA" placeholder="Masukkan angka" min="0">
+            </div>
+            <div class="form-group">
+                <label for="hargaJualPB">Harga Jual Pembelian (PB) (Rp):</label>
+                <input type="number" id="hargaJualPB" placeholder="Masukkan angka" min="0">
+            </div>
+            <div class="form-group">
+                <label for="hargaJualPH">Harga Jual Persediaan Akhir (PH) (Rp):</label>
+                <input type="number" id="hargaJualPH" placeholder="Masukkan angka" min="0">
+            </div>
+
+            <!-- Data Harga Beli -->
+            <div class="form-group">
+                <label for="hargaBeliPA">Harga Beli Persediaan Awal (PA) (Rp):</label>
+                <input type="number" id="hargaBeliPA" placeholder="Masukkan angka" min="0">
+            </div>
+            <div class="form-group">
+                <label for="hargaBeliPB">Harga Beli Pembelian (PB) (Rp):</label>
+                <input type="number" id="hargaBeliPB" placeholder="Masukkan angka" min="0">
+            </div>
+            <div class="form-group">
+                <label for="hargaBeliPH">Harga Beli Persediaan Akhir (PH) (Rp):</label>
+                <input type="number" id="hargaBeliPH" placeholder="Masukkan angka" min="0">
+            </div>
+
+            <!-- Data Beban -->
+            <div class="form-group">
+                <label for="bebanOperasional">Beban Operasional (Rp):</label>
+                <input type="number" id="bebanOperasional" placeholder="Masukkan angka" min="0">
+            </div>
+            <div class="form-group">
+                <label for="bebanLainnya">Beban Lainnya (Rp):</label>
+                <input type="number" id="bebanLainnya" placeholder="Masukkan angka" min="0">
+            </div>
+
+            <button onclick="hitungSemua()">Hitung Sekarang</button>
+        </div>
+
+        <!-- Bagian Hasil Perhitungan -->
+        <div class="result-section" id="resultSection" style="display: none;">
+            <h3>Hasil Perhitungan</h3>
+            <div class="result-item"><strong>Total Penjualan:</strong> <span id="totalPenjualan"></span> Rp</div>
+            <div class="result-item"><strong>Total Harga Pokok Penjualan (HPP):</strong> <span id="totalHPP"></span> Rp</div>
+            <div class="result-item"><strong>Total Beban:</strong> <span id="totalBeban"></span> Rp</div>
+            <div class="result-item"><strong>Laba Bersih (Penjualan - HPP - Total Beban):</strong> <span id="labaBersih"></span> Rp</div>
+        </div>
+
+        <!-- Grafik Hasil -->
+        <div class="chart-wrapper" id="chartSection" style="display: none;">
+            <canvas id="hasilChart"></canvas>
+        </div>
+    </div>
+
+    <script>
+        // Fungsi untuk mengambil data dari API dengan penanganan error
+        async function ambilDataDariAPI() {
+            try {
+                const responsePA = await fetch('https://api-sistem.com/persediaan-awal');
+                if (!responsePA.ok) throw new Error("Gagal mengambil data persediaan awal");
+                const dataPersediaanAwal = await responsePA.json();
+                
+                const responsePB = await fetch('https://api-sistem.com/pembelian');
+                if (!responsePB.ok) throw new Error("Gagal mengambil data pembelian");
+                const dataPembelian = await responsePB.json();
+                
+                return { dataPersediaanAwal, dataPembelian };
+            } catch (error) {
+                console.error("Gagal mengambil data:", error);
+                // Tampilkan pesan error ke pengguna
+                document.getElementById('apiError').style.display = 'block';
+                return null; // Kembalikan null jika gagal
+            }
+        }
+
+        // Panggil saat halaman dimuat
+        window.onload = async function() {
+            const data = await ambilDataDariAPI();
+            // Jika data berhasil diambil, bisa diisi ke form (fungsi tampilkanDataTabel belum dibuat, bisa ditambahkan jika diperlukan)
+            if (data) {
+                console.log("Data berhasil diambil:", data);
+                // Contoh: isi input dengan data dari API jika ada struktur yang sesuai
+                // document.getElementById('hargaJualPA').value = data.dataPersediaanAwal.hargaJual || 0;
+            }
+        };
+
+        // Fungsi utama untuk perhitungan
+        function hitungSemua() {
+            // Ambil nilai dari input
+            const hargaJualPA = parseFloat(document.getElementById('hargaJualPA').value) || 0;
+            const hargaJualPB = parseFloat(document.getElementById('hargaJualPB').value) || 0;
+            const hargaJualPH = parseFloat(document.getElementById('hargaJualPH').value) || 0;
+            const hargaBeliPA = parseFloat(document.getElementById('hargaBeliPA').value) || 0;
+            const hargaBeliPB = parseFloat(document.getElementById('hargaBeliPB').value) || 0;
+            const hargaBeliPH = parseFloat(document.getElementById('hargaBeliPH').value) || 0;
+            const bebanOperasional = parseFloat(document.getElementById('bebanOperasional').value) || 0;
+            const bebanLainnya = parseFloat(document.getElementById('bebanLainnya').value) || 0;
+
+            // 1. Hitung Total Penjualan
+            const totalPenjualan = hargaJualPA + hargaJualPB - hargaJualPH;
+
+            // 2. Hitung HPP
+            const totalHPP = hargaBeliPA + hargaBeliPB - hargaBeliPH;
+
+            // 3. Hitung Total Beban
+            const totalBeban = bebanOperasional + bebanLainnya;
+
+            // Hitung laba bersih
+            const labaBersih = totalPenjualan - totalHPP - totalBeban;
+
+            // Tampilkan hasil ke halaman
+            document.getElementById('totalPenjualan').textContent = formatAngka(totalPenjualan);
+            document.getElementById('totalHPP').textContent = formatAngka(totalHPP);
+            document.getElementById('totalBeban').textContent = formatAngka(totalBeban);
+            document.getElementById('labaBersih').textContent = formatAngka(labaBersih);
+
+            // Tampilkan bagian hasil dan grafik
+            document.getElementById('resultSection').style.display = 'block';
+            document.getElementById('chartSection').style.display = 'block';
+
+            // Buat grafik hasil perhitungan
+            buatGrafik(totalPenjualan, totalHPP, totalBeban, labaBersih);
+        }
+
+        // Fungsi untuk memformat angka menjadi ribuan
+        function formatAngka(angka) {
+            return angka.toLocaleString('id-ID');
+        }
+
+        // Fungsi untuk membuat grafik hasil
+        function buatGrafik(penjualan, hpp, beban, laba) {
+            const ctx = document.getElementById('hasilChart').getContext('2d');
+            
+            // Hapus grafik lama jika ada
+            if (window.hasilChart) {
+                window.hasilChart.destroy();
+            }
+
+            window.hasilChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Total Penjualan', 'HPP', 'Total Beban', 'Laba Bersih'],
+                    datasets: [{
+                        label: 'Nilai (Rp)',
+                        data: [penjualan, hpp, beban, laba],
+                        backgroundColor: [
+                            '#007bff',
+                            '#ffc107',
+                            '#dc3545',
+                            '#28a745'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false, // Agar grafik menyesuaikan kontainer
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Nilai (Rp)',
+                                font: { size: 16 }
+                            },
+                            ticks: { font: { size: 14 } }
+                        },
+                        x: {
+                            ticks: { font: { size: 14 } }
+                        }
+                    },
+                    plugins: {
+                        legend: { 
+                            display: false // Legend tidak perlu karena hanya satu dataset
+                        },
+                        tooltip: { fontSize: 14 }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

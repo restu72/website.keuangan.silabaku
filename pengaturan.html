@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="id"> <!-- Ubah bahasa ke Indonesia agar lebih sesuai -->
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>pengaturan SI-LABAKU</title>
+    <!-- CSS Dependensi -->
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"> <!-- Tambahkan Bootstrap CSS secara eksplisit -->
+    <link href="css/styles.css" rel="stylesheet" />
+    <!-- Font Awesome -->
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #25a18e 0%, #4cc9f0 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .site-header {
+            max-width: 900px;
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 0;
+        }
+        .site-logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .site-logo span {
+            color: #ffd166;
+        }
+        /* Penyesuaian khusus untuk perangkat kecil */
+        @media (max-width: 767.98px) {
+            /* Tombol toggle untuk sidenav di mobile */
+            .sb-sidenav-toggle {
+                display: inline-block;
+                margin-right: 1rem;
+            }
+            /* Sembunyikan sidenav secara default di mobile, tampilkan saat aktif */
+            #layoutSidenav_nav {
+                position: fixed;
+                top: 0;
+                left: -100%;
+                height: 100vh;
+                width: 250px;
+                z-index: 9999;
+                transition: left 0.3s ease;
+                background-color: #212529;
+            }
+            #layoutSidenav_nav.active {
+                left: 0;
+            }
+            /* Overlay saat sidenav terbuka */
+            .sidenav-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0,0,0,0.5);
+                z-index: 9998;
+            }
+            .sidenav-overlay.active {
+                display: block;
+            }
+            /* Penyesuaian kartu statistik di mobile */
+            .card {
+                margin-bottom: 1rem !important;
+            }
+            /* Hilangkan form search di mobile */
+            .d-md-inline-block {
+                display: none !important;
+            }
+            /* Perbesar ukuran ikon user di mobile */
+            .fas.fa-user {
+                font-size: 1.2rem;
+            }
+        }
+        /* Tampilan desktop tetap seperti semula */
+        @media (min-width: 768px) {
+            .sb-sidenav-toggle {
+                display: none;
+            }
+            .sidenav-overlay {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="sb-nav-fixed">
+     <!-- Header Website -->
+    <header class="site-header">
+        <div class="site-logo">Si <span>Labaku</span></div>
+    </header>
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="container-fluid px-4">
+                    <h1 class="mt-4">Pengaturan Sistem</h1>
+                    <ol class="breadcrumb mb-4">
+                        <li class="breadcrumb-item"><a href="index.html">Beranda</a></li>
+                        
+                    </ol>
+
+                    <ul class="nav nav-tabs flex-wrap" id="settingsTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="true">Profil Pengguna</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="system-tab" data-bs-toggle="tab" data-bs-target="#system" type="button" role="tab" aria-controls="system" aria-selected="false">Pengaturan Sistem</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="backup-tab" data-bs-toggle="tab" data-bs-target="#backup" type="button" role="tab" aria-controls="backup" aria-selected="false">Backup Data</button>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content" id="settingsTabContent">
+                        <!-- Tab Profil dan Sistem Sama Seperti Sebelumnya -->
+                        <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                            <div class="card mt-4">
+                                <div class="card-header">Informasi Profil</div>
+                                <div class="card-body">
+                                    <form id="profileForm">
+                                        <div class="row mb-3">
+                                            <div class="col-md-6 col-sm-12"><label class="form-label" for="namaLengkap">Nama Lengkap</label><input class="form-control" id="namaLengkap" type="text" placeholder="Masukkan nama lengkap" /></div>
+                                            <div class="col-md-6 col-sm-12"><label class="form-label" for="username">Username</label><input class="form-control" id="username" type="text" placeholder="Masukkan username" /></div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6 col-sm-12"><label class="form-label" for="email">Email</label><input class="form-control" id="email" type="email" placeholder="Masukkan alamat email" /></div>
+                                            <div class="col-md-6 col-sm-12"><label class="form-label" for="noTelp">Nomor Telepon</label><input class="form-control" id="noTelp" type="tel" placeholder="Masukkan nomor telepon" /></div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-12"><label class="form-label" for="alamat">Alamat</label><textarea class="form-control" id="alamat" rows="3" placeholder="Masukkan alamat"></textarea></div>
+                                        </div>
+                                        <h5 class="mt-4">Ubah Kata Sandi</h5>
+                                        <div class="row mb-3">
+                                            <div class="col-md-4 col-sm-12"><label class="form-label" for="passwordLama">Kata Sandi Lama</label><input class="form-control" id="passwordLama" type="password" placeholder="Masukkan kata sandi lama" /></div>
+                                            <div class="col-md-4 col-sm-12"><label class="form-label" for="passwordBaru">Kata Sandi Baru</label><input class="form-control" id="passwordBaru" type="password" placeholder="Masukkan kata sandi baru" /></div>
+                                            <div class="col-md-4 col-sm-12"><label class="form-label" for="konfirmPassword">Konfirmasi Kata Sandi</label><input class="form-control" id="konfirmPassword" type="password" placeholder="Konfirmasi kata sandi baru" /></div>
+                                        </div>
+                                        <button class="btn btn-primary w-100 w-md-auto" type="submit">Simpan Perubahan</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="system" role="tabpanel" aria-labelledby="system-tab">
+                            <div class="card mt-4">
+                                <div class="card-header">Konfigurasi Sistem</div>
+                                <div class="card-body">
+                                    <form id="systemForm">
+                                        <div class="row mb-3">
+                                            <div class="col-md-6 col-sm-12"><label class="form-label" for="namaUMKM">Nama UMKM</label><input class="form-control" id="namaUMKM" type="text" placeholder="Masukan nama UMKM" /></div>
+                                            <div class="col-md-6 col-sm-12"><label class="form-label" for="bahasa">Bahasa Sistem</label><select class="form-select" id="bahasa"><option value="id">Bahasa Indonesia</option><option value="en">English</option></select></div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6 col-sm-12"><label class="form-label" for="zonaWaktu">Zona Waktu</label><select class="form-select" id="zonaWaktu"><option value="Asia/Jakarta">WIB (Asia/Jakarta)</option><option value="Asia/Makassar">WITA (Asia/Makassar)</option><option value="Asia/Jayapura">WIT (Asia/Jayapura)</option></select></div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-check-label d-block" for="notifikasi"><input class="form-check-input" id="notifikasi" type="checkbox" checked /> Aktifkan Notifikasi Sistem</label>
+                                        </div>
+                                        <button class="btn btn-primary w-100 w-md-auto" type="submit">Simpan Konfigurasi</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tab Backup Data yang Diperbarui -->
+                        <div class="tab-pane fade" id="backup" role="tabpanel" aria-labelledby="backup-tab">
+                            <div class="card mt-4">
+                                <div class="card-header">Manajemen Backup Data</div>
+                                <div class="card-body">
+                                    <div class="mb-4">
+                                        <h5>Buat Backup Baru</h5>
+                                        <p class="text-wrap">
+                                            Backup akan menyimpan semua data stok, pengeluaran, dan HPP yang sudah Anda inputkan.
+                                        </p>
+                                        <button class="btn btn-success w-100 w-md-auto" type="button" id="createBackupBtn">
+                                            <i class="fas fa-download me-1"></i> Buat Backup Sekarang
+                                        </button>
+                                    </div>
+                                    <hr />
+                                    <div class="mb-4">
+                                        <h5>Riwayat Backup</h5>
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-sm" id="backupTable" width="100%" cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Tanggal Backup</th>
+                                                        <th>Ukuran File</th>
+                                                        <th class="text-center">Aksi</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!-- Data riwayat backup akan dimuat dari localStorage -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="mb-4">
+                                        <h5>Pulihkan Data dari Backup</h5>
+                                        <p class="text-wrap">
+                                            Pilih file backup (.json) untuk memulihkan data sistem Anda.
+                                        </p>
+                                        <input class="form-control w-100 w-md-auto mb-2" type="file" id="restoreFile" accept=".json" />
+                                        <button class="btn btn-warning w-100 w-md-auto" type="button" id="restoreBackupBtn">
+                                            <i class="fas fa-upload me-1"></i> Pulihkan Data
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"></script>
+    <script>
+        
+
+            
+    </script>
+</body>
+</html>
